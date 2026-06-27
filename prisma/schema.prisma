@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id          String                   @id @default(uuid())
+  name        String
+  createdAt   DateTime                 @default(now())
+  projects    Project[]
+  memberships OrganizationMembership[]
+}
+
+model Project {
+  id             String              @id @default(uuid())
+  name           String
+  description    String?
+  organizationId String
+  organization   Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  articles       Article[]
+  memberships    ProjectMembership[]
+  createdAt      DateTime            @default(now())
+}
+
+model User {
+  id                 String                   @id @default(uuid())
+  email              String                   @unique
+  name               String
+  createdAt          DateTime                 @default(now())
+  orgMemberships     OrganizationMembership[]
+  projectMemberships ProjectMembership[]
+}
+
+model OrganizationMembership {
+  id             String       @id @default(uuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           String       // "OWNER", "MEMBER"
+  createdAt      DateTime     @default(now())
+
+  @@unique([userId, organizationId])
+}
+
+model ProjectMembership {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  role      String   // "OWNER", "REVIEWER"
+  createdAt DateTime @default(now())
+
+  @@unique([userId, projectId])
+}
+
+model Article {
+  id              String    @id @default(uuid())
+  projectId       String
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  pmid            String?
+  title           String
+  authors         String?
+  citation        String?
+  firstAuthor     String?
+  journalBook     String?
+  publicationYear Int?
+  createDate      String?
+  pmcid           String?
+  nihmsId         String?
+  doi             String?
+  reviewStatus    String    @default("UNREVIEWED") // "UNREVIEWED", "INCLUDE", "EXCLUDE", "MAYBE"
+  priority        String    @default("MEDIUM")     // "LOW", "MEDIUM", "HIGH"
+  notes           String?
+  tags            String?   // Comma-separated tags e.g. "diabetes, randomized-trial"
+  reviewedById    String?
+  reviewedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([projectId])
+  @@index([pmid])
+  @@index([doi])
+}
