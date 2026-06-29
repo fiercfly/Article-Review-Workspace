@@ -365,17 +365,17 @@ export default function ProjectWorkspace() {
   if (errorMsg && errorMsg.includes("Access Denied")) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-red-200 dark:border-red-900/50 rounded-2xl p-6 space-y-4 shadow-sm">
+        <div className="max-w-md w-full bg-white border border-red-200 rounded-2xl p-6 space-y-4 shadow-sm">
           <XCircle className="w-10 h-10 text-red-500 mx-auto" />
           <div>
-            <h2 className="text-base font-bold text-slate-900 dark:text-white">Access Denied</h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <h2 className="text-base font-bold text-slate-900">Access Denied</h2>
+            <p className="text-xs text-slate-500 mt-1">
               Your persona does not have permission to access this project. Use the header to switch users.
             </p>
           </div>
           <button
             onClick={() => router.push("/")}
-            className="w-full py-2 bg-slate-900 dark:bg-slate-800 text-white rounded-lg text-xs font-semibold transition"
+            className="w-full py-2 bg-slate-900 text-white rounded-lg text-xs font-semibold transition"
           >
             Return to Dashboard
           </button>
@@ -387,30 +387,29 @@ export default function ProjectWorkspace() {
   return (
     <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       
-      {/* Top Action Header (Mobile First Flex Stack) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+      {/* Top Action Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Project Desk</span>
-            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600">Project Desk</span>
+            <span className="text-slate-300">•</span>
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-              userRole === "OWNER" ? "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950 dark:text-indigo-300 dark:border-indigo-800" : "bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700"
+              userRole === "OWNER" ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-slate-100 text-slate-600 border-slate-200"
             }`}>
               {userRole}
             </span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <FileSpreadsheet className="w-5 h-5 text-indigo-600 shrink-0" />
             Article Review Space
           </h1>
         </div>
 
-        {/* Buttons (Full width on mobile, inline on desktop) */}
         <div className="flex items-center gap-2.5 w-full sm:w-auto">
           {userRole === "OWNER" && (
             <button
               onClick={() => setImportModalOpen(true)}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 bg-slate-900 dark:bg-indigo-600 hover:bg-slate-800 dark:hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition"
             >
               <Plus className="w-4 h-4" />
               Import Excel
@@ -420,7 +419,7 @@ export default function ProjectWorkspace() {
           <button
             onClick={handleCSVExport}
             disabled={articles.length === 0}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 disabled:opacity-40 rounded-lg text-xs font-semibold transition hover:bg-slate-50 dark:hover:bg-slate-800"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 bg-white border border-slate-200 text-slate-700 disabled:opacity-40 rounded-lg text-xs font-semibold transition hover:bg-slate-50"
           >
             <Download className="w-4 h-4" />
             Export CSV
@@ -428,8 +427,8 @@ export default function ProjectWorkspace() {
         </div>
       </div>
 
-      {/* Toolbar Filters & Search (Mobile First Layout) */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      {/* Toolbar Filters & Search */}
+      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
           <input
@@ -437,16 +436,15 @@ export default function ProjectWorkspace() {
             placeholder="Search PMID, title, authors, DOI..."
             value={search}
             onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-indigo-500 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-900 dark:text-white focus:outline-none"
+            className="w-full bg-slate-50 border border-slate-200 focus:border-indigo-500 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-900 focus:outline-none"
           />
         </div>
 
-        {/* Filter Dropdowns (Grid on mobile) */}
         <div className="grid grid-cols-2 sm:flex items-center gap-2">
           <select
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-            className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none"
           >
             <option value="ALL">All Statuses</option>
             <option value="UNREVIEWED">Unreviewed</option>
@@ -458,7 +456,7 @@ export default function ProjectWorkspace() {
           <select
             value={priorityFilter}
             onChange={(e) => { setPriorityFilter(e.target.value); setPage(1); }}
-            className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none"
           >
             <option value="ALL">All Priorities</option>
             <option value="LOW">Low</option>
@@ -469,7 +467,7 @@ export default function ProjectWorkspace() {
           <select
             value={tagFilter}
             onChange={(e) => { setTagFilter(e.target.value); setPage(1); }}
-            className="col-span-2 sm:col-span-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+            className="col-span-2 sm:col-span-1 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none"
           >
             <option value="">All Tags</option>
             {tagsList.map((t) => (
@@ -481,8 +479,8 @@ export default function ProjectWorkspace() {
 
       {/* Bulk Action Bar */}
       {selectedIds.length > 0 && (
-        <div className="bg-indigo-50 dark:bg-indigo-950/80 border border-indigo-200 dark:border-indigo-900 rounded-xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
-          <span className="text-xs text-indigo-900 dark:text-indigo-200 font-semibold">
+        <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+          <span className="text-xs text-indigo-900 font-semibold">
             Selected <strong>{selectedIds.length}</strong> item(s)
           </span>
           <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
@@ -506,7 +504,7 @@ export default function ProjectWorkspace() {
             </button>
             <button
               onClick={() => setSelectedIds([])}
-              className="text-xs text-slate-500 dark:text-slate-400 hover:underline ml-auto sm:ml-2"
+              className="text-xs text-slate-500 hover:underline ml-auto sm:ml-2"
             >
               Clear
             </button>
@@ -515,33 +513,33 @@ export default function ProjectWorkspace() {
       )}
 
       {/* Main Workspace View: Mobile Cards + Desktop Table */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
         {isLoading ? (
           <div className="py-20 text-center text-slate-400 text-xs">
-            <div className="w-8 h-8 border-2 border-slate-900 dark:border-white border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+            <div className="w-8 h-8 border-2 border-slate-900 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             Loading articles...
           </div>
         ) : articles.length === 0 ? (
           <div className="py-20 text-center p-6 max-w-sm mx-auto space-y-3">
             <FileSpreadsheet className="w-10 h-10 text-slate-300 mx-auto" />
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">No articles found</h3>
+            <h3 className="text-sm font-bold text-slate-900">No articles found</h3>
             <p className="text-xs text-slate-500 leading-relaxed">
               Adjust filters or upload PubMed articles using the Excel import button.
             </p>
           </div>
         ) : (
           <div>
-            {/* Mobile Cards View (Visible on small screens) */}
-            <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+            {/* Mobile Cards View */}
+            <div className="block md:hidden divide-y divide-slate-100">
               {articles.map((a) => {
                 const isSelected = selectedIds.includes(a.id);
-                let statusBadge = "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400";
-                if (a.reviewStatus === "INCLUDE") statusBadge = "bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300";
-                if (a.reviewStatus === "EXCLUDE") statusBadge = "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300";
-                if (a.reviewStatus === "MAYBE") statusBadge = "bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300";
+                let statusBadge = "bg-slate-100 text-slate-600";
+                if (a.reviewStatus === "INCLUDE") statusBadge = "bg-emerald-50 text-emerald-700";
+                if (a.reviewStatus === "EXCLUDE") statusBadge = "bg-red-50 text-red-700";
+                if (a.reviewStatus === "MAYBE") statusBadge = "bg-amber-50 text-amber-700";
 
                 return (
-                  <div key={a.id} className={`p-4 space-y-3 ${isSelected ? "bg-indigo-50/50 dark:bg-indigo-950/20" : ""}`}>
+                  <div key={a.id} className={`p-4 space-y-3 ${isSelected ? "bg-indigo-50/50" : ""}`}>
                     <div className="flex items-start justify-between gap-3">
                       <input
                         type="checkbox"
@@ -553,32 +551,32 @@ export default function ProjectWorkspace() {
                         <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded ${statusBadge}`}>
                           {a.reviewStatus}
                         </span>
-                        <h4 className="font-bold text-xs text-slate-900 dark:text-white mt-1.5 leading-snug">
+                        <h4 className="font-bold text-xs text-slate-900 mt-1.5 leading-snug">
                           {a.title}
                         </h4>
                       </div>
                       <button
                         onClick={() => openDrawer(a)}
-                        className="p-2 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg text-xs font-semibold shrink-0"
+                        className="p-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-semibold shrink-0"
                       >
                         Inspect
                       </button>
                     </div>
 
                     <div className="text-[11px] text-slate-500 space-y-1 pl-7">
-                      <div><strong className="text-slate-700 dark:text-slate-300">Author:</strong> {a.firstAuthor || "Unknown"} ({a.publicationYear || "—"})</div>
-                      <div className="truncate"><strong className="text-slate-700 dark:text-slate-300">Journal:</strong> {a.journalBook || "—"}</div>
+                      <div><strong className="text-slate-700">Author:</strong> {a.firstAuthor || "Unknown"} ({a.publicationYear || "—"})</div>
+                      <div className="truncate"><strong className="text-slate-700">Journal:</strong> {a.journalBook || "—"}</div>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* Desktop Table View (Visible on medium+ screens) */}
+            {/* Desktop Table View */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/40 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                  <tr className="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                     <th className="py-3 px-4 w-10">
                       <input
                         type="checkbox"
@@ -588,29 +586,29 @@ export default function ProjectWorkspace() {
                       />
                     </th>
                     <th className="py-3 px-4 w-28">Status</th>
-                    <th className="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white" onClick={() => handleSort("title")}>
+                    <th className="py-3 px-4 cursor-pointer hover:text-slate-900" onClick={() => handleSort("title")}>
                       Title <ArrowUpDown className="inline w-3 h-3 ml-1" />
                     </th>
-                    <th className="py-3 px-4 cursor-pointer hover:text-slate-900 dark:hover:text-white" onClick={() => handleSort("publicationYear")}>
+                    <th className="py-3 px-4 cursor-pointer hover:text-slate-900" onClick={() => handleSort("publicationYear")}>
                       Year <ArrowUpDown className="inline w-3 h-3 ml-1" />
                     </th>
-                    <th className="py-3 px-4 w-28 cursor-pointer hover:text-slate-900 dark:hover:text-white" onClick={() => handleSort("priority")}>
+                    <th className="py-3 px-4 w-28 cursor-pointer hover:text-slate-900" onClick={() => handleSort("priority")}>
                       Priority <ArrowUpDown className="inline w-3 h-3 ml-1" />
                     </th>
                     <th className="py-3 px-4 w-32">Tags</th>
                     <th className="py-3 px-4 w-20 text-center">Inspect</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                <tbody className="divide-y divide-slate-100">
                   {articles.map((a) => {
                     const isSelected = selectedIds.includes(a.id);
-                    let statusBadge = "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400";
-                    if (a.reviewStatus === "INCLUDE") statusBadge = "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-800";
-                    if (a.reviewStatus === "EXCLUDE") statusBadge = "bg-red-50 text-red-700 border border-red-200 dark:bg-red-950 dark:text-red-300 dark:border-red-800";
-                    if (a.reviewStatus === "MAYBE") statusBadge = "bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-800";
+                    let statusBadge = "bg-slate-100 text-slate-600";
+                    if (a.reviewStatus === "INCLUDE") statusBadge = "bg-emerald-50 text-emerald-700 border border-emerald-200";
+                    if (a.reviewStatus === "EXCLUDE") statusBadge = "bg-red-50 text-red-700 border border-red-200";
+                    if (a.reviewStatus === "MAYBE") statusBadge = "bg-amber-50 text-amber-700 border border-amber-200";
 
                     return (
-                      <tr key={a.id} className={`hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition ${isSelected ? "bg-indigo-50/40 dark:bg-indigo-950/20" : ""}`}>
+                      <tr key={a.id} className={`hover:bg-slate-50/80 transition ${isSelected ? "bg-indigo-50/40" : ""}`}>
                         <td className="py-3.5 px-4">
                           <input
                             type="checkbox"
@@ -625,14 +623,14 @@ export default function ProjectWorkspace() {
                           </span>
                         </td>
                         <td className="py-3.5 px-4 max-w-md">
-                          <div className="font-bold text-xs text-slate-900 dark:text-white truncate" title={a.title}>
+                          <div className="font-bold text-xs text-slate-900 truncate" title={a.title}>
                             {a.title}
                           </div>
                           <div className="text-[11px] text-slate-500 truncate mt-0.5">
                             {a.firstAuthor || "Unknown Author"} • {a.journalBook || "Unknown Journal"}
                           </div>
                         </td>
-                        <td className="py-3.5 px-4 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        <td className="py-3.5 px-4 text-xs font-semibold text-slate-700">
                           {a.publicationYear || "—"}
                         </td>
                         <td className="py-3.5 px-4 text-xs">
@@ -644,7 +642,7 @@ export default function ProjectWorkspace() {
                           <div className="flex flex-wrap gap-1">
                             {a.tags ? (
                               a.tags.split(",").map((t) => (
-                                <span key={t} className="text-[10px] bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 px-1.5 py-0.5 rounded">
+                                <span key={t} className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">
                                   {t.trim()}
                                 </span>
                               ))
@@ -656,7 +654,7 @@ export default function ProjectWorkspace() {
                         <td className="py-3.5 px-4 text-center">
                           <button
                             onClick={() => openDrawer(a)}
-                            className="p-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg transition"
+                            className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition"
                           >
                             <Eye className="w-3.5 h-3.5" />
                           </button>
@@ -672,20 +670,20 @@ export default function ProjectWorkspace() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="border-t border-slate-200 dark:border-slate-800 px-4 py-3 flex items-center justify-between text-xs text-slate-500 bg-slate-50/50 dark:bg-slate-950/20">
+          <div className="border-t border-slate-200 px-4 py-3 flex items-center justify-between text-xs text-slate-500 bg-slate-50/50">
             <div>Page <strong>{page}</strong> of <strong>{totalPages}</strong></div>
             <div className="flex items-center gap-1">
               <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="p-1 border border-slate-200 dark:border-slate-700 disabled:opacity-30 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                className="p-1 border border-slate-200 disabled:opacity-30 rounded hover:bg-slate-100 transition"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
-                className="p-1 border border-slate-200 dark:border-slate-700 disabled:opacity-30 rounded hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                className="p-1 border border-slate-200 disabled:opacity-30 rounded hover:bg-slate-100 transition"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -694,18 +692,18 @@ export default function ProjectWorkspace() {
         )}
       </div>
 
-      {/* Details Side-Drawer (Mobile First Adaptive) */}
+      {/* Details Side-Drawer */}
       {activeArticle && (
         <div className="fixed inset-0 z-50 overflow-hidden flex justify-end animate-fadeIn">
-          <div onClick={closeDrawer} className="absolute inset-0 bg-black/50 backdrop-blur-xs" />
+          <div onClick={closeDrawer} className="absolute inset-0 bg-black/40 backdrop-blur-xs" />
 
-          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 h-full flex flex-col shadow-2xl z-10">
-            <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="relative w-full max-w-lg bg-white border-l border-slate-200 h-full flex flex-col shadow-2xl z-10">
+            <div className="p-4 sm:p-6 border-b border-slate-200 flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Review Panel</span>
-                <h2 className="text-sm font-bold text-slate-900 dark:text-white truncate max-w-[280px] sm:max-w-[340px] mt-0.5">{activeArticle.title}</h2>
+                <h2 className="text-sm font-bold text-slate-900 truncate max-w-[280px] sm:max-w-[340px] mt-0.5">{activeArticle.title}</h2>
               </div>
-              <button onClick={closeDrawer} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400">
+              <button onClick={closeDrawer} className="p-2 hover:bg-slate-100 rounded-lg text-slate-400">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -717,7 +715,7 @@ export default function ProjectWorkspace() {
                   <select
                     value={detailStatus}
                     onChange={(e) => setDetailStatus(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none"
                   >
                     <option value="UNREVIEWED">Unreviewed</option>
                     <option value="INCLUDE">Include</option>
@@ -731,7 +729,7 @@ export default function ProjectWorkspace() {
                   <select
                     value={detailPriority}
                     onChange={(e) => setDetailPriority(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none"
                   >
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
@@ -747,7 +745,7 @@ export default function ProjectWorkspace() {
                   value={detailNotes}
                   onChange={(e) => setDetailNotes(e.target.value)}
                   rows={4}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none resize-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none resize-none"
                 />
               </div>
 
@@ -758,29 +756,29 @@ export default function ProjectWorkspace() {
                   placeholder="e.g. diabetes, trial"
                   value={detailTags}
                   onChange={(e) => setDetailTags(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none"
                 />
               </div>
 
-              <div className="border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3 text-xs text-slate-500">
-                <h3 className="font-bold text-slate-900 dark:text-white text-xs uppercase">Metadata</h3>
+              <div className="border-t border-slate-100 pt-4 space-y-3 text-xs text-slate-500">
+                <h3 className="font-bold text-slate-900 text-xs uppercase">Metadata</h3>
                 <div><strong>PMID:</strong> {activeArticle.pmid || "—"}</div>
                 <div><strong>DOI:</strong> {activeArticle.doi || "—"}</div>
                 <div><strong>Authors:</strong> {activeArticle.authors || "—"}</div>
               </div>
 
-              <div className="border-t border-slate-100 dark:border-slate-800 pt-4 flex gap-3">
+              <div className="border-t border-slate-100 pt-4 flex gap-3">
                 <button
                   type="submit"
                   disabled={isUpdatingArticle}
-                  className="flex-1 py-2.5 bg-slate-900 dark:bg-indigo-600 text-white rounded-lg text-xs font-semibold transition"
+                  className="flex-1 py-2.5 bg-slate-900 text-white rounded-lg text-xs font-semibold transition"
                 >
                   {isUpdatingArticle ? "Saving..." : "Save Review"}
                 </button>
                 <button
                   type="button"
                   onClick={closeDrawer}
-                  className="px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300"
+                  className="px-4 py-2.5 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600"
                 >
                   Cancel
                 </button>
@@ -793,17 +791,17 @@ export default function ProjectWorkspace() {
       {/* Excel Import Dialog Modal */}
       {importModalOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center p-4 animate-fadeIn">
-          <div onClick={() => setImportModalOpen(false)} className="absolute inset-0 bg-black/50 backdrop-blur-xs" />
+          <div onClick={() => setImportModalOpen(false)} className="absolute inset-0 bg-black/40 backdrop-blur-xs" />
 
-          <div className="relative w-full max-w-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col max-h-[85vh] shadow-xl z-10">
-            <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="relative w-full max-w-3xl bg-white border border-slate-200 rounded-2xl flex flex-col max-h-[85vh] shadow-xl z-10">
+            <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between">
               <div>
-                <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <FileSpreadsheet className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <FileSpreadsheet className="w-5 h-5 text-indigo-600" />
                   Import Articles
                 </h2>
               </div>
-              <button onClick={() => setImportModalOpen(false)} className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-white">
+              <button onClick={() => setImportModalOpen(false)} className="p-1.5 text-slate-400 hover:text-slate-600">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -812,28 +810,28 @@ export default function ProjectWorkspace() {
               {!importPreview ? (
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-indigo-500 rounded-xl p-8 sm:p-12 text-center space-y-3 cursor-pointer bg-slate-50/50 dark:bg-slate-850/50 transition"
+                  className="border-2 border-dashed border-slate-200 hover:border-indigo-500 rounded-xl p-8 sm:p-12 text-center space-y-3 cursor-pointer bg-slate-50/50 transition"
                 >
                   <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".xlsx, .xls" className="hidden" />
-                  <UploadCloud className="w-8 h-8 text-indigo-600 dark:text-indigo-400 mx-auto" />
-                  <span className="text-xs font-bold text-slate-900 dark:text-white block">Click to select PubMed export file (.xlsx)</span>
+                  <UploadCloud className="w-8 h-8 text-indigo-600 mx-auto" />
+                  <span className="text-xs font-bold text-slate-900 block">Click to select PubMed export file (.xlsx)</span>
                 </div>
               ) : (
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><span className="text-[10px] text-slate-400 font-bold block">Total</span><span className="font-bold text-slate-900 dark:text-white">{importPreview.summary.totalRows}</span></div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><span className="text-[10px] text-emerald-500 font-bold block">Valid</span><span className="font-bold text-emerald-600">{importPreview.summary.validCount}</span></div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><span className="text-[10px] text-rose-500 font-bold block">Invalid</span><span className="font-bold text-rose-600">{importPreview.summary.invalidCount}</span></div>
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"><span className="text-[10px] text-amber-500 font-bold block">Duplicates</span><span className="font-bold text-amber-600">{importPreview.summary.duplicateCount}</span></div>
+                    <div className="p-3 bg-slate-50 rounded-lg"><span className="text-[10px] text-slate-400 font-bold block">Total</span><span className="font-bold text-slate-900">{importPreview.summary.totalRows}</span></div>
+                    <div className="p-3 bg-slate-50 rounded-lg"><span className="text-[10px] text-emerald-500 font-bold block">Valid</span><span className="font-bold text-emerald-600">{importPreview.summary.validCount}</span></div>
+                    <div className="p-3 bg-slate-50 rounded-lg"><span className="text-[10px] text-rose-500 font-bold block">Invalid</span><span className="font-bold text-rose-600">{importPreview.summary.invalidCount}</span></div>
+                    <div className="p-3 bg-slate-50 rounded-lg"><span className="text-[10px] text-amber-500 font-bold block">Duplicates</span><span className="font-bold text-amber-600">{importPreview.summary.duplicateCount}</span></div>
                   </div>
 
                   {importPreview.summary.duplicateCount > 0 && (
-                    <div className="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <span className="text-xs text-amber-800 dark:text-amber-300 font-semibold">Resolve Duplicates:</span>
+                    <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <span className="text-xs text-amber-800 font-semibold">Resolve Duplicates:</span>
                       <select
                         value={duplicateStrategy}
                         onChange={(e) => setDuplicateStrategy(e.target.value as any)}
-                        className="bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-800 rounded px-2.5 py-1 text-xs text-slate-800 dark:text-slate-200 focus:outline-none"
+                        className="bg-white border border-amber-300 rounded px-2.5 py-1 text-xs text-slate-800 focus:outline-none"
                       >
                         <option value="skip">Skip duplicates (Default)</option>
                         <option value="overwrite">Overwrite existing columns</option>
@@ -843,8 +841,8 @@ export default function ProjectWorkspace() {
                   )}
 
                   {/* Windowed Virtualized Preview Table */}
-                  <div className="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
-                    <div className="bg-slate-50 dark:bg-slate-950 px-3 py-2 text-[11px] font-bold text-slate-500 flex justify-between items-center border-b border-slate-200 dark:border-slate-800">
+                  <div className="border border-slate-200 rounded-lg overflow-hidden">
+                    <div className="bg-slate-50 px-3 py-2 text-[11px] font-bold text-slate-500 flex justify-between items-center border-b border-slate-200">
                       <span>Parsed Preview (Showing {Math.min((previewPage - 1) * previewLimit + 1, importPreview.previewRows.length)} - {Math.min(previewPage * previewLimit, importPreview.previewRows.length)} of {importPreview.previewRows.length})</span>
                       {Math.ceil(importPreview.previewRows.length / previewLimit) > 1 && (
                         <div className="flex items-center gap-1">
@@ -852,7 +850,7 @@ export default function ProjectWorkspace() {
                             type="button"
                             disabled={previewPage === 1}
                             onClick={() => setPreviewPage(previewPage - 1)}
-                            className="px-2 py-0.5 border border-slate-200 dark:border-slate-700 rounded disabled:opacity-30"
+                            className="px-2 py-0.5 border border-slate-200 rounded disabled:opacity-30"
                           >
                             Prev
                           </button>
@@ -861,27 +859,27 @@ export default function ProjectWorkspace() {
                             type="button"
                             disabled={previewPage === Math.ceil(importPreview.previewRows.length / previewLimit)}
                             onClick={() => setPreviewPage(previewPage + 1)}
-                            className="px-2 py-0.5 border border-slate-200 dark:border-slate-700 rounded disabled:opacity-30"
+                            className="px-2 py-0.5 border border-slate-200 rounded disabled:opacity-30"
                           >
                             Next
                           </button>
                         </div>
                       )}
                     </div>
-                    <div className="max-h-56 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+                    <div className="max-h-56 overflow-y-auto divide-y divide-slate-100 text-xs">
                       {importPreview.previewRows
                         .slice((previewPage - 1) * previewLimit, previewPage * previewLimit)
                         .map((r) => (
-                          <div key={r.index} className="p-2.5 flex items-center justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                          <div key={r.index} className="p-2.5 flex items-center justify-between gap-3 hover:bg-slate-50">
                             <div className="flex items-center gap-2 min-w-0">
                               <span className={`text-[9px] uppercase font-bold px-1.5 py-0.5 rounded ${
-                                r.status === "valid" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300" :
-                                r.status === "duplicate" ? "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300" :
-                                "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300"
+                                r.status === "valid" ? "bg-emerald-100 text-emerald-800" :
+                                r.status === "duplicate" ? "bg-amber-100 text-amber-800" :
+                                "bg-rose-100 text-rose-800"
                               }`}>
                                 {r.status}
                               </span>
-                              <span className="font-semibold text-slate-900 dark:text-white truncate max-w-xs">{r.data.title || "Untitled"}</span>
+                              <span className="font-semibold text-slate-900 truncate max-w-xs">{r.data.title || "Untitled"}</span>
                             </div>
                             <span className="text-[10px] text-slate-400 shrink-0">{r.data.pmid ? `PMID:${r.data.pmid}` : r.data.doi || "—"}</span>
                           </div>
@@ -895,12 +893,12 @@ export default function ProjectWorkspace() {
               {importError && <div className="p-3 bg-red-50 text-red-600 rounded-lg text-xs">{importError}</div>}
             </div>
 
-            <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-between">
-              {importPreview ? <button onClick={() => setImportPreview(null)} className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded text-xs">Change File</button> : <div />}
+            <div className="p-4 border-t border-slate-200 flex justify-between">
+              {importPreview ? <button onClick={() => setImportPreview(null)} className="px-3 py-1.5 border border-slate-200 rounded text-xs">Change File</button> : <div />}
               <div className="flex gap-2">
-                <button onClick={() => setImportModalOpen(false)} className="px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded text-xs">Close</button>
+                <button onClick={() => setImportModalOpen(false)} className="px-3 py-1.5 border border-slate-200 rounded text-xs">Close</button>
                 {importPreview && (
-                  <button onClick={commitImport} disabled={importCommitLoading} className="px-4 py-1.5 bg-slate-900 dark:bg-indigo-600 text-white rounded text-xs font-semibold">
+                  <button onClick={commitImport} disabled={importCommitLoading} className="px-4 py-1.5 bg-slate-900 text-white rounded text-xs font-semibold">
                     {importCommitLoading ? "Importing..." : "Commit Import"}
                   </button>
                 )}
