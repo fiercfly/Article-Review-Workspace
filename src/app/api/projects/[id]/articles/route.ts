@@ -74,6 +74,11 @@ export async function GET(
         orderBy,
         skip,
         take: limit,
+        include: {
+          reviewedBy: {
+            select: { name: true, email: true },
+          },
+        },
       }),
     ]);
 

@@ -135,7 +135,9 @@ export default function Home() {
   }
 
   // Dashboard (Authenticated - Mobile First Minimalist White)
-  const isOwner = user.orgMemberships.some((m) => m.role === "OWNER");
+  const orgMemberships = user?.orgMemberships || [];
+  const projectMemberships = user?.projectMemberships || [];
+  const isOwner = orgMemberships.some((m) => m.role === "OWNER");
 
   return (
     <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -147,12 +149,12 @@ export default function Home() {
             Welcome, {user.name.split(" (")[0]}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Organization: <strong className="text-slate-800">{user.orgMemberships[0]?.organization.name || "Workspace"}</strong>
+            Organization: <strong className="text-slate-800">{orgMemberships[0]?.organization?.name || "Workspace"}</strong>
           </p>
         </div>
         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 text-slate-700 rounded-lg text-xs font-semibold self-start sm:self-auto">
           <Users className="w-3.5 h-3.5 text-indigo-600" />
-          Role: {user.orgMemberships[0]?.role}
+          Role: {orgMemberships[0]?.role || "MEMBER"}
         </div>
       </div>
 
@@ -163,11 +165,11 @@ export default function Home() {
           <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
               <Layers className="w-4 h-4 text-indigo-600" />
-              Projects ({user.projectMemberships.length})
+              Projects ({projectMemberships.length})
             </h2>
           </div>
 
-          {user.projectMemberships.length === 0 ? (
+          {projectMemberships.length === 0 ? (
             <div className="p-8 text-center bg-white border border-slate-200 rounded-xl">
               <Folder className="w-10 h-10 text-slate-300 mx-auto mb-2" />
               <p className="text-xs font-semibold text-slate-700">No assigned projects</p>
@@ -175,7 +177,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {user.projectMemberships.map((pm) => (
+              {projectMemberships.map((pm) => (
                 <Link
                   key={pm.id}
                   href={`/project/${pm.projectId}`}

@@ -30,7 +30,43 @@ export async function GET() {
     },
   });
 
-  return NextResponse.json({ user });
+  if (!user) {
+    return NextResponse.json({ user: null });
+  }
+
+  // Get all projects belonging to the user's organizations
+  const userOrgIds = user.orgMemberships.map((om) => om.organizationId);
+  const orgProjects = await prisma.project.findMany({
+    where: {
+      organizationId: { in: userOrgIds },
+    },
+    include: {
+      organization: true,
+    },
+  });
+
+  // Combine explicit project memberships and organization-wide projects
+  const mergedProjectMemberships = [...user.projectMemberships];
+  for (const proj of orgProjects) {
+    const hasExplicit = mergedProjectMemberships.some((pm) => pm.projectId === proj.id);
+    if (!hasExplicit) {
+      mergedProjectMemberships.push({
+        id: `org-pm-${user.id}-${proj.id}`,
+        userId: user.id,
+        projectId: proj.id,
+        role: "REVIEWER",
+        createdAt: new Date(),
+        project: proj,
+      } as any);
+    }
+  }
+
+  return NextResponse.json({
+    user: {
+      ...user,
+      projectMemberships: mergedProjectMemberships,
+    },
+  });
 }
 
 export async function POST(req: NextRequest) {

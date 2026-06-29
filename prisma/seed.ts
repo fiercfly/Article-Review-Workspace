@@ -116,11 +116,19 @@ async function main() {
     },
   });
 
-  // Bob is only REVIEWER of project Alpha, has no access to project Beta
+  // Bob is REVIEWER for all projects in Org A (Alpha & Beta)
   await prisma.projectMembership.create({
     data: {
       userId: bob.id,
       projectId: projectAlpha.id,
+      role: "REVIEWER",
+    },
+  });
+
+  await prisma.projectMembership.create({
+    data: {
+      userId: bob.id,
+      projectId: projectBeta.id,
       role: "REVIEWER",
     },
   });

@@ -35,7 +35,7 @@ export async function getCurrentUser() {
 
 /**
  * Checks if the current user has access to a specific project.
- * Returns the membership details if accessible, or null if denied.
+ * Returns explicit project membership if present, or organization reviewer access if part of the parent org.
  */
 export async function verifyProjectAccess(projectId: string) {
   const user = await getCurrentUser();
@@ -43,9 +43,38 @@ export async function verifyProjectAccess(projectId: string) {
     return null;
   }
 
-  const membership = user.projectMemberships.find(
+  // 1. Check explicit project membership
+  const explicitMembership = user.projectMemberships.find(
     (pm) => pm.projectId === projectId
   );
 
-  return membership || null;
+  if (explicitMembership) {
+    return explicitMembership;
+  }
+
+  // 2. Check if the project belongs to one of the user's organizations
+  const project = await prisma.project.findUnique({
+    where: { id: projectId },
+    select: { organizationId: true },
+  });
+
+  if (!project) {
+    return null;
+  }
+
+  const isOrgMember = user.orgMemberships.some(
+    (om) => om.organizationId === project.organizationId
+  );
+
+  if (isOrgMember) {
+    return {
+      id: `org-access-${user.id}-${projectId}`,
+      userId: user.id,
+      projectId: projectId,
+      role: "REVIEWER",
+      createdAt: new Date(),
+    };
+  }
+
+  return null;
 }

@@ -36,6 +36,7 @@ model User {
   createdAt          DateTime                 @default(now())
   orgMemberships     OrganizationMembership[]
   projectMemberships ProjectMembership[]
+  reviewedArticles   Article[]
 }
 
 model OrganizationMembership {
@@ -82,6 +83,7 @@ model Article {
   notes           String?
   tags            String?   // Comma-separated tags e.g. "diabetes, randomized-trial"
   reviewedById    String?
+  reviewedBy      User?     @relation(fields: [reviewedById], references: [id], onDelete: SetNull)
   reviewedAt      DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt

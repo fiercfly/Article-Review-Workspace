@@ -29,6 +29,7 @@ interface Article {
   tags: string | null;
   reviewedById: string | null;
   reviewedAt: string | null;
+  reviewedBy?: { name: string; email: string } | null;
   createdAt: string;
 }
 
@@ -761,10 +762,15 @@ export default function ProjectWorkspace() {
               </div>
 
               <div className="border-t border-slate-100 pt-4 space-y-3 text-xs text-slate-500">
-                <h3 className="font-bold text-slate-900 text-xs uppercase">Metadata</h3>
+                <h3 className="font-bold text-slate-900 text-xs uppercase">Metadata & Audit Trail</h3>
                 <div><strong>PMID:</strong> {activeArticle.pmid || "—"}</div>
                 <div><strong>DOI:</strong> {activeArticle.doi || "—"}</div>
                 <div><strong>Authors:</strong> {activeArticle.authors || "—"}</div>
+                {activeArticle.reviewedBy && (
+                  <div className="p-2 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-900 mt-2">
+                    <strong>Last Reviewed By:</strong> {activeArticle.reviewedBy.name} {activeArticle.reviewedAt ? `on ${new Date(activeArticle.reviewedAt).toLocaleDateString()}` : ""}
+                  </div>
+                )}
               </div>
 
               <div className="border-t border-slate-100 pt-4 flex gap-3">
